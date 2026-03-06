@@ -42,7 +42,7 @@ export function HowItWorks() {
             <AnimateOnScroll key={step.title} delay={i * 0.15}>
               <GlassCard className="relative text-center z-10 overflow-hidden" hover={false}>
                 {/* Step number */}
-                <span className="absolute -top-3 -left-1 text-6xl font-bold text-accent-coral/10 select-none pointer-events-none">
+                <span className="absolute top-2 left-3 text-6xl font-bold text-accent-coral/10 select-none pointer-events-none">
                   {step.number}
                 </span>
                 {/* Icon */}
