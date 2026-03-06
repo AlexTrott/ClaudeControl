@@ -17,14 +17,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
         if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "terminal", accessibilityDescription: "ClaudeControl")
+            button.image = MenuBarIcon.create(awaiting: false)
             button.action = #selector(togglePopover)
             button.target = self
         }
 
         popover = NSPopover()
-        popover.contentSize = NSSize(width: 320, height: 400)
+        popover.contentSize = NSSize(width: CCTheme.Popover.width, height: CCTheme.Popover.height)
         popover.behavior = .transient
+        popover.animates = true
         popover.contentViewController = NSHostingController(
             rootView: SessionListView(sessionManager: sessionManager, dismissPopover: { [weak self] in
                 self?.popover.performClose(nil)
@@ -66,8 +67,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func updateBadge(awaiting: Bool) {
         guard let button = statusItem.button else { return }
-        let symbolName = awaiting ? "terminal.fill" : "terminal"
-        button.image = NSImage(systemSymbolName: symbolName, accessibilityDescription: "ClaudeControl")
+        button.image = MenuBarIcon.create(awaiting: awaiting)
     }
 
     private func sendAwaitingNotification() {
