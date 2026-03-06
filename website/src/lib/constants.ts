@@ -48,7 +48,7 @@ export const FEATURES = [
     title: "Zero Configuration",
     description:
       "No setup required. ClaudeControl automatically finds your Claude CLI and inherits your shell environment.",
-    colSpan: 1,
+    colSpan: 2,
   },
 ];
 
