@@ -67,10 +67,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func updateBadge(awaiting: Bool) {
         guard let button = statusItem.button else { return }
-        button.image = MenuBarIcon.create(awaiting: awaiting)
+        let effectiveAwaiting = awaiting && AppSettings.shared.iconTintEnabled
+        button.image = MenuBarIcon.create(awaiting: effectiveAwaiting)
     }
 
     private func sendAwaitingNotification() {
+        guard AppSettings.shared.notificationsEnabled else { return }
+
         let waitingSessions = sessionManager.sessions.filter { $0.isAwaitingInput }
         guard !waitingSessions.isEmpty else { return }
 

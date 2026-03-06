@@ -29,7 +29,7 @@ class TerminalPanelController: NSObject, NSWindowDelegate {
         return env
     }()
 
-    private static let claudePath: String = {
+    private static let autoDetectedClaudePath: String = {
         // Resolve claude path once using the user's login shell
         let task = Process()
         task.executableURL = URL(fileURLWithPath: "/bin/zsh")
@@ -53,17 +53,28 @@ class TerminalPanelController: NSObject, NSWindowDelegate {
         return fallbacks.first { FileManager.default.fileExists(atPath: $0) } ?? "claude"
     }()
 
+    private static var claudePath: String {
+        let custom = AppSettings.shared.customClaudePath
+        if !custom.isEmpty && FileManager.default.fileExists(atPath: custom) {
+            return custom
+        }
+        return autoDetectedClaudePath
+    }
+
     init(session: Session, resumeSessionId: String? = nil) {
         self.session = session
         self.resumeSessionId = resumeSessionId
         self.inputDetector = InputDetector(session: session)
 
-        self.terminalView = ObservableTerminalView(frame: NSRect(x: 0, y: 0, width: 800, height: 600))
+        let width = CGFloat(AppSettings.shared.terminalWidth)
+        let height = CGFloat(AppSettings.shared.terminalHeight)
+
+        self.terminalView = ObservableTerminalView(frame: NSRect(x: 0, y: 0, width: width, height: height))
         terminalView.session = session
         terminalView.inputDetector = inputDetector
 
         self.panel = NSPanel(
-            contentRect: NSRect(x: 200, y: 200, width: 800, height: 600),
+            contentRect: NSRect(x: 200, y: 200, width: width, height: height),
             styleMask: [.titled, .closable, .miniaturizable, .resizable, .nonactivatingPanel],
             backing: .buffered,
             defer: false

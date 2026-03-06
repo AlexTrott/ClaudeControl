@@ -8,7 +8,7 @@ class InputDetector: @unchecked Sendable {
     private let bufferMaxLength = 2000
     private let lock = NSLock()
 
-    private let promptPatterns: [String] = [
+    private static let builtInPromptPatterns: [String] = [
         "\u{276F}",
         "> ",
         "Allow? (y/n)",
@@ -18,7 +18,13 @@ class InputDetector: @unchecked Sendable {
         "? (y/n)",
     ]
 
-    private let idleThreshold: TimeInterval = 2.0
+    private var promptPatterns: [String] {
+        Self.builtInPromptPatterns + AppSettings.shared.customPromptPatterns
+    }
+
+    private var idleThreshold: TimeInterval {
+        AppSettings.shared.idleThresholdSeconds
+    }
 
     init(session: Session) {
         self.session = session

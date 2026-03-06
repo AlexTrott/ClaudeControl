@@ -5,6 +5,7 @@ struct SessionListView: View {
     @ObservedObject var sessionManager: SessionManager
     var dismissPopover: () -> Void
 
+    @Environment(\.openSettings) private var openSettings
     @State private var showingPreviousSessions = false
 
     var body: some View {
@@ -179,7 +180,7 @@ struct SessionListView: View {
 
     private var footerView: some View {
         HStack {
-            Button(action: {}) {
+            Button(action: showSettings) {
                 Image(systemName: "gearshape")
                     .font(.system(size: 12))
                     .foregroundStyle(CCTheme.Text.tertiary)
@@ -195,7 +196,7 @@ struct SessionListView: View {
 
             Spacer()
 
-            Text("v1.0")
+            Text("v1.1")
                 .font(CCTheme.Fonts.footerText)
                 .foregroundStyle(CCTheme.Text.tertiary)
 
@@ -214,12 +215,22 @@ struct SessionListView: View {
 
     // MARK: - Actions
 
+    private func showSettings() {
+        dismissPopover()
+        openSettings()
+    }
+
     private func pickDirectoryAndCreateSession() {
         let panel = NSOpenPanel()
         panel.canChooseFiles = false
         panel.canChooseDirectories = true
         panel.allowsMultipleSelection = false
         panel.message = "Choose a directory for the Claude session"
+
+        let defaultDir = AppSettings.shared.defaultSessionDirectory
+        if !defaultDir.isEmpty {
+            panel.directoryURL = URL(fileURLWithPath: defaultDir)
+        }
 
         if panel.runModal() == .OK, let url = panel.url {
             withAnimation(CCAnimation.listInsert) {

@@ -6,7 +6,7 @@ struct ClaudeControlApp: App {
 
     var body: some Scene {
         Settings {
-            EmptyView()
+            SettingsView()
         }
     }
 }
