@@ -7,6 +7,22 @@ class TerminalPanelController: NSObject, NSWindowDelegate {
     let terminalView: ObservableTerminalView
     let inputDetector: InputDetector
 
+    private static let shellEnvironment: [String] = {
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/bin/zsh")
+        task.arguments = ["-ilc", "env"]
+        let pipe = Pipe()
+        task.standardOutput = pipe
+        task.standardError = FileHandle.nullDevice
+        try? task.run()
+        task.waitUntilExit()
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(data: data, encoding: .utf8) ?? ""
+        return output.components(separatedBy: "\n").filter {
+            $0.contains("=") && !$0.hasPrefix("CLAUDECODE=")
+        }
+    }()
+
     private static let claudePath: String = {
         // Resolve claude path once using the user's login shell
         let task = Process()
@@ -63,7 +79,7 @@ class TerminalPanelController: NSObject, NSWindowDelegate {
         terminalView.startProcess(
             executable: Self.claudePath,
             args: [],
-            environment: nil,
+            environment: Self.shellEnvironment,
             execName: nil,
             currentDirectory: session.directory
         )
