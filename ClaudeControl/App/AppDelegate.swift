@@ -1,6 +1,7 @@
 import AppKit
 import SwiftUI
 import Combine
+import UserNotifications
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
@@ -8,8 +9,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let sessionManager = SessionManager()
     private var eventMonitor: Any?
     private var badgeCancellable: AnyCancellable?
+    private var wasAwaiting = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
+
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
         if let button = statusItem.button {
@@ -37,9 +41,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self else { return }
-                // Defer to next run loop tick so the published values are updated
                 DispatchQueue.main.async {
-                    self.updateBadge(awaiting: self.sessionManager.hasAnyAwaitingInput)
+                    let awaiting = self.sessionManager.hasAnyAwaitingInput
+                    self.updateBadge(awaiting: awaiting)
+
+                    if awaiting && !self.wasAwaiting {
+                        self.sendAwaitingNotification()
+                    }
+                    self.wasAwaiting = awaiting
                 }
             }
     }
@@ -59,6 +68,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let button = statusItem.button else { return }
         let symbolName = awaiting ? "terminal.fill" : "terminal"
         button.image = NSImage(systemSymbolName: symbolName, accessibilityDescription: "ClaudeControl")
+    }
+
+    private func sendAwaitingNotification() {
+        let waitingSessions = sessionManager.sessions.filter { $0.isAwaitingInput }
+        guard !waitingSessions.isEmpty else { return }
+
+        let content = UNMutableNotificationContent()
+        if waitingSessions.count == 1, let session = waitingSessions.first {
+            content.title = "Claude - \(session.name)"
+            content.body = "Waiting for your input"
+        } else {
+            content.title = "ClaudeControl"
+            content.body = "\(waitingSessions.count) sessions waiting for input"
+        }
+        content.sound = .default
+
+        let request = UNNotificationRequest(identifier: "awaiting-input", content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request)
     }
 
     func applicationWillTerminate(_ notification: Notification) {
