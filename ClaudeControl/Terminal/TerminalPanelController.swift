@@ -6,6 +6,7 @@ class TerminalPanelController: NSObject, NSWindowDelegate {
     let panel: NSPanel
     let terminalView: ObservableTerminalView
     let inputDetector: InputDetector
+    let resumeSessionId: String?
 
     private static let shellEnvironment: [String] = {
         let task = Process()
@@ -18,9 +19,14 @@ class TerminalPanelController: NSObject, NSWindowDelegate {
         task.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(data: data, encoding: .utf8) ?? ""
-        return output.components(separatedBy: "\n").filter {
+        var env = output.components(separatedBy: "\n").filter {
             $0.contains("=") && !$0.hasPrefix("CLAUDECODE=")
         }
+        // Ensure proper terminal color support regardless of launch context
+        env.removeAll { $0.hasPrefix("TERM=") || $0.hasPrefix("COLORTERM=") }
+        env.append("TERM=xterm-256color")
+        env.append("COLORTERM=truecolor")
+        return env
     }()
 
     private static let claudePath: String = {
@@ -47,8 +53,9 @@ class TerminalPanelController: NSObject, NSWindowDelegate {
         return fallbacks.first { FileManager.default.fileExists(atPath: $0) } ?? "claude"
     }()
 
-    init(session: Session) {
+    init(session: Session, resumeSessionId: String? = nil) {
         self.session = session
+        self.resumeSessionId = resumeSessionId
         self.inputDetector = InputDetector(session: session)
 
         self.terminalView = ObservableTerminalView(frame: NSRect(x: 0, y: 0, width: 800, height: 600))
@@ -76,9 +83,13 @@ class TerminalPanelController: NSObject, NSWindowDelegate {
     }
 
     func startProcess() {
+        var args: [String] = []
+        if let resumeId = resumeSessionId {
+            args = ["--resume", resumeId]
+        }
         terminalView.startProcess(
             executable: Self.claudePath,
-            args: [],
+            args: args,
             environment: Self.shellEnvironment,
             execName: nil,
             currentDirectory: session.directory

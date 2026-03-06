@@ -5,23 +5,33 @@ struct SessionListView: View {
     @ObservedObject var sessionManager: SessionManager
     var dismissPopover: () -> Void
 
+    @State private var showingPreviousSessions = false
+
     var body: some View {
-        VStack(spacing: 0) {
-            headerView
+        if showingPreviousSessions {
+            PreviousSessionsView(
+                sessionManager: sessionManager,
+                onBack: { showingPreviousSessions = false },
+                onSessionSelected: { dismissPopover() }
+            )
+        } else {
+            VStack(spacing: 0) {
+                headerView
 
-            Divider().opacity(0.5)
+                Divider().opacity(0.5)
 
-            if sessionManager.sessions.isEmpty {
-                emptyStateView
-            } else {
-                sessionListView
+                if sessionManager.sessions.isEmpty {
+                    emptyStateView
+                } else {
+                    sessionListView
+                }
+
+                Divider().opacity(0.5)
+
+                footerView
             }
-
-            Divider().opacity(0.5)
-
-            footerView
+            .frame(width: CCTheme.Popover.width, height: CCTheme.Popover.height)
         }
-        .frame(width: CCTheme.Popover.width, height: CCTheme.Popover.height)
     }
 
     // MARK: - Header
@@ -148,6 +158,18 @@ struct SessionListView: View {
             .buttonStyle(.plain)
             .padding(.top, CCTheme.Spacing.xs)
 
+            Button(action: { showingPreviousSessions = true }) {
+                HStack(spacing: CCTheme.Spacing.xs) {
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.system(size: 12, weight: .medium))
+                    Text("Load Previous Session")
+                        .font(.system(.subheadline, weight: .medium))
+                }
+                .foregroundStyle(CCTheme.Text.secondary)
+            }
+            .buttonStyle(.plain)
+            .padding(.top, CCTheme.Spacing.xs)
+
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -159,6 +181,13 @@ struct SessionListView: View {
         HStack {
             Button(action: {}) {
                 Image(systemName: "gearshape")
+                    .font(.system(size: 12))
+                    .foregroundStyle(CCTheme.Text.tertiary)
+            }
+            .buttonStyle(.plain)
+
+            Button(action: { showingPreviousSessions = true }) {
+                Image(systemName: "clock.arrow.circlepath")
                     .font(.system(size: 12))
                     .foregroundStyle(CCTheme.Text.tertiary)
             }

@@ -3,6 +3,7 @@ import Combine
 
 class SessionManager: ObservableObject {
     @Published var sessions: [Session] = []
+    let historyService = SessionHistoryService()
     private var cancellables = Set<AnyCancellable>()
 
     var hasAnyAwaitingInput: Bool {
@@ -34,6 +35,27 @@ class SessionManager: ObservableObject {
 
     func showSession(_ session: Session) {
         session.panelController?.showWindow()
+    }
+
+    func resumeSession(_ previousSession: PreviousSession) {
+        let session = Session(name: previousSession.projectName, directory: previousSession.directory)
+
+        let panelController = TerminalPanelController(session: session, resumeSessionId: previousSession.id)
+        session.panelController = panelController
+
+        session.$isAwaitingInput
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.objectWillChange.send() }
+            .store(in: &cancellables)
+
+        session.$isRunning
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.objectWillChange.send() }
+            .store(in: &cancellables)
+
+        sessions.append(session)
+        panelController.startProcess()
+        panelController.showWindow()
     }
 
     func removeSession(_ session: Session) {

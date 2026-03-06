@@ -63,5 +63,7 @@ enum CCTheme {
         static let emptyTitle = Font.system(.title3, design: .default, weight: .medium)
         static let emptySubtitle = Font.system(.subheadline, design: .default, weight: .regular)
         static let sessionCount = Font.system(.caption2, design: .rounded, weight: .medium)
+        static let sectionHeader = Font.system(.caption, design: .default, weight: .semibold)
+        static let promptPreview = Font.system(.callout, design: .default, weight: .regular)
     }
 }
