@@ -16,10 +16,17 @@ export const FEATURES = [
     colSpan: 2,
   },
   {
-    icon: "BellRing" as const,
-    title: "Smart Input Detection",
+    icon: "Zap" as const,
+    title: "Zero Configuration",
     description:
-      "Automatically detects when Claude is waiting for your input. Get native macOS notifications so you never miss a prompt.",
+      "No setup required. ClaudeControl automatically finds your Claude CLI and inherits your shell environment.",
+    colSpan: 1,
+  },
+  {
+    icon: "Monitor" as const,
+    title: "Native macOS Integration",
+    description:
+      "Lives in your menu bar, always one click away. Floating panels stay visible across all Spaces and desktops.",
     colSpan: 1,
   },
   {
@@ -30,25 +37,18 @@ export const FEATURES = [
     colSpan: 2,
   },
   {
-    icon: "Monitor" as const,
-    title: "Native macOS Integration",
-    description:
-      "Lives in your menu bar, always one click away. Floating panels stay visible across all Spaces and desktops.",
-    colSpan: 1,
-  },
-  {
     icon: "Activity" as const,
     title: "Real-Time Status",
     description:
       "See at a glance which sessions are running, which need input, and which have stopped. Color-coded indicators update in real time.",
-    colSpan: 1,
+    colSpan: 2,
   },
   {
-    icon: "Zap" as const,
-    title: "Zero Configuration",
+    icon: "BellRing" as const,
+    title: "Smart Input Detection",
     description:
-      "No setup required. ClaudeControl automatically finds your Claude CLI and inherits your shell environment.",
-    colSpan: 2,
+      "Automatically detects when Claude is waiting for your input. Get native macOS notifications so you never miss a prompt.",
+    colSpan: 1,
   },
 ];
 
