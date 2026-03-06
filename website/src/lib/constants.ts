@@ -27,28 +27,28 @@ export const FEATURES = [
     title: "Session History & Resume",
     description:
       "Browse previous sessions grouped by project. Resume any past conversation right where you left off with full context recovery.",
-    colSpan: 1,
+    colSpan: 2,
   },
   {
     icon: "Monitor" as const,
     title: "Native macOS Integration",
     description:
       "Lives in your menu bar, always one click away. Floating panels stay visible across all Spaces and desktops.",
-    colSpan: 2,
+    colSpan: 1,
   },
   {
     icon: "Activity" as const,
     title: "Real-Time Status",
     description:
       "See at a glance which sessions are running, which need input, and which have stopped. Color-coded indicators update in real time.",
-    colSpan: 2,
+    colSpan: 1,
   },
   {
     icon: "Zap" as const,
     title: "Zero Configuration",
     description:
       "No setup required. ClaudeControl automatically finds your Claude CLI and inherits your shell environment.",
-    colSpan: 1,
+    colSpan: 2,
   },
 ];
 
