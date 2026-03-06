@@ -41,14 +41,14 @@ export const FEATURES = [
     title: "Real-Time Status",
     description:
       "See at a glance which sessions are running, which need input, and which have stopped. Color-coded indicators update in real time.",
-    colSpan: 1,
+    colSpan: 2,
   },
   {
     icon: "Zap" as const,
     title: "Zero Configuration",
     description:
       "No setup required. ClaudeControl automatically finds your Claude CLI and inherits your shell environment.",
-    colSpan: 2,
+    colSpan: 1,
   },
 ];
 
