@@ -12,7 +12,7 @@ export function DownloadCTA() {
       <AnimateOnScroll>
         <div className="glass rounded-3xl p-12 md:p-16 text-center relative overflow-hidden">
           {/* Background orb */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full orb-purple opacity-10 pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full orb-coral opacity-10 pointer-events-none" />
 
           <h2 className="text-3xl md:text-4xl font-bold mb-4 relative z-10">
             Ready to take control?

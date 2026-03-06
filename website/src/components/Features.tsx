@@ -19,7 +19,7 @@ export function Features() {
   return (
     <SectionWrapper id="features" className="py-24">
       <AnimateOnScroll>
-        <p className="text-accent-purple text-sm font-medium tracking-wider uppercase mb-4">
+        <p className="text-accent-coral text-sm font-medium tracking-wider uppercase mb-4">
           Features
         </p>
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -43,10 +43,10 @@ export function Features() {
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
                   style={{
-                    background: "linear-gradient(135deg, rgba(168,85,247,0.15), rgba(59,130,246,0.15))",
+                    background: "linear-gradient(135deg, rgba(230,113,78,0.15), rgba(230,168,78,0.15))",
                   }}
                 >
-                  <Icon size={20} className="text-accent-purple" />
+                  <Icon size={20} className="text-accent-coral" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-text-primary">
                   {feature.title}

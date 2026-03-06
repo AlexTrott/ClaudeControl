@@ -4,10 +4,10 @@ export function MenuBarMockup() {
   return (
     <div className="relative mx-auto max-w-sm animate-float">
       {/* Glow effect behind the mockup */}
-      <div className="absolute inset-0 rounded-2xl bg-accent-purple/10 blur-3xl" />
+      <div className="absolute inset-0 rounded-2xl bg-accent-coral/10 blur-3xl" />
 
       {/* Mockup container */}
-      <div className="glass relative rounded-2xl p-1" style={{ boxShadow: "0 0 40px rgba(168, 85, 247, 0.15), 0 0 80px rgba(59, 130, 246, 0.08)" }}>
+      <div className="glass relative rounded-2xl p-1" style={{ boxShadow: "0 0 40px rgba(230, 113, 78, 0.15), 0 0 80px rgba(230, 168, 78, 0.08)" }}>
         <div className="rounded-xl overflow-hidden" style={{ background: "#13131f" }}>
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-surface-border">
@@ -16,7 +16,7 @@ export function MenuBarMockup() {
               <span className="text-sm font-semibold text-text-primary">ClaudeControl</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-medium px-2 py-0.5 rounded-full" style={{ background: "rgba(168, 85, 247, 0.15)", color: "#c084fc" }}>
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full" style={{ background: "rgba(230, 113, 78, 0.15)", color: "#F0956E" }}>
                 2
               </span>
               <button className="w-6 h-6 rounded-lg flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors" style={{ background: "rgba(255,255,255,0.05)" }}>
@@ -74,8 +74,8 @@ function ClaudeIcon() {
       <circle cx="8" cy="8" r="3" fill="url(#icon-gradient)" />
       <defs>
         <linearGradient id="icon-gradient" x1="0" y1="0" x2="16" y2="16">
-          <stop stopColor="#a855f7" />
-          <stop offset="1" stopColor="#3b82f6" />
+          <stop stopColor="#E6714E" />
+          <stop offset="1" stopColor="#E6A84E" />
         </linearGradient>
       </defs>
     </svg>

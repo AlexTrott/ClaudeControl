@@ -9,10 +9,9 @@
   --color-surface-elevated: rgba(255, 255, 255, 0.08);
   --color-surface-border: rgba(255, 255, 255, 0.08);
 
-  --color-accent-purple: #a855f7;
-  --color-accent-blue: #3b82f6;
-  --color-accent-teal: #14b8a6;
-  --color-accent-orange: #f97316;
+  --color-accent-coral: #E6714E;
+  --color-accent-amber: #E6A84E;
+  --color-accent-teal: #4EB8A6;
 
   --color-text-primary: #f0f0f5;
   --color-text-secondary: #8b8b9e;
@@ -71,26 +70,26 @@ body {
   background: var(--color-surface-hover);
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
-              0 0 20px rgba(168, 85, 247, 0.08),
+              0 0 20px rgba(230, 113, 78, 0.08),
               inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #a855f7, #3b82f6);
+  background: linear-gradient(135deg, #E6714E, #E6A84E);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-button {
-  background: linear-gradient(135deg, #a855f7, #3b82f6);
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+  background: linear-gradient(135deg, #E6714E, #E6A84E);
+  box-shadow: 0 0 20px rgba(230, 113, 78, 0.3);
   transition: all 0.3s ease;
 }
 
 .gradient-button:hover {
-  box-shadow: 0 0 30px rgba(168, 85, 247, 0.5),
-              0 0 60px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 30px rgba(230, 113, 78, 0.5),
+              0 0 60px rgba(230, 168, 78, 0.2);
   transform: translateY(-1px);
 }
 
@@ -102,14 +101,14 @@ body {
   pointer-events: none;
 }
 
-.orb-purple {
-  background: radial-gradient(circle, #a855f7 0%, transparent 70%);
+.orb-coral {
+  background: radial-gradient(circle, #E6714E 0%, transparent 70%);
 }
 
-.orb-blue {
-  background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+.orb-amber {
+  background: radial-gradient(circle, #E6A84E 0%, transparent 70%);
 }
 
 .orb-teal {
-  background: radial-gradient(circle, #14b8a6 0%, transparent 70%);
+  background: radial-gradient(circle, #4EB8A6 0%, transparent 70%);
 }
