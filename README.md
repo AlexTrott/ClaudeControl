@@ -66,4 +66,4 @@ ClaudeControl/
 
 ## License
 
-This project is provided as-is. See the repository for license details.
+[WTFPL](LICENSE) — Do What The F*** You Want To Public License.
